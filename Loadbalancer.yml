@@ -1,0 +1,19 @@
+- hosts: Loadbalancer
+  tasks:
+  - name: Installing Haproxy 
+    package:
+            name: "haproxy"
+            state: present
+  - name: Configuring haproxy.cfg File
+    template: 
+        dest: "/etc/haproxy/haproxy.cfg"
+        src: "/root/task12.1/haproxy.cfg.j2"
+  - name: Starting Haproxy Service 
+    service: 
+        name: "haproxy"
+        state: restarted
+  - name: Configuring the Firewall
+    firewalld:
+            port: 8080/tcp
+            state: enabled
+            permanent: yes 
